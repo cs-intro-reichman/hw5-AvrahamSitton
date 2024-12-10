@@ -177,7 +177,7 @@ public final class In {
 
             // or URL from web
             if (url == null) {
-                url = new URL(name);
+                //url = new URL(name);
             }
 
             URLConnection site = url.openConnection();
