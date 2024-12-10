@@ -116,47 +116,41 @@ public class Scrabble {
 	// 2. The user gets the Scrabble points of the entered word.
 	// 3. The user is prompted to enter another word, or '.' to end the hand.
 	public static void playHand(String hand) {
-		// Declares the variable in to refer to an object of type In, and initializes it
-		// to represent
-		// the stream of characters coming from the keyboard. Used for reading the
-		// user's inputs.
 		In in = new In();
-		// String input = in.readString();
-		boolean onAir = hand.length() > 0;
-		while (onAir) {
-			///System.out.println("Current Hand: " + MyString.spacedString(hand));
+		while (hand.length() > 0) {
+			System.out.println("Current Hand: " + MyString.spacedString(hand));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
-			// Reads the next "token" from the keyboard. A token is defined as a string of
-			// non-whitespace characters. Whitespace is either space characters, or
-			// end-of-line characters.
 			String input = in.readString();
+
 			if (input.equals(".")) {
 				System.out.println("End of hand. Total score: " + totalScore + " points");
-
-				break;
+				playGame();
 			}
 
-			if (isWordInDictionary(input) && MyString.subsetOf(input, hand)) {
+			else if (isWordInDictionary(input) && MyString.subsetOf(input, hand)) {
 				totalScore += wordScore(input);
 				System.out.println(
 						input + " earned " + wordScore(input) + " points. Score: " + totalScore + " points");
-				onAir = true;
-			} else if (!isWordInDictionary(input) || !MyString.subsetOf(input, hand)) {
-				System.out.println("No such word in the dictionary. Try again.");
-				onAir = true;
-
+				System.out.println();
+				playHand(MyString.remove(hand, input));
 			}
 
-			//// Replace the following break statement with code
-			//// that completes the hand playing loop
+			else if (!MyString.subsetOf(input, hand)) {
+				System.out.println("Invalid word. Try again.");
+				playHand(hand);
+			}
 
+			else if (!isWordInDictionary(input)) {
+				System.out.println("No such word in the dictionary. Try again.");
+				System.out.println();
+				playHand(hand);
+			}
+
+			else if (hand.length() == 0) {
+				System.out.println("Ran out of letters. Total score: " + totalScore + " points");
+			}
 		}
-		// String mainHandString = createHand(mainHandString, input);
-		if (hand.length() == 0) {
-			System.out.println("Ran out of letters. Total score: " + totalScore + " points");
-		} else {
-			System.out.println("End of hand. Total score: " + totalScore + " points");
-		}
+
 	}
 
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand,
@@ -164,29 +158,24 @@ public class Scrabble {
 	// to end the game. If the user enters any other input, writes an error message.
 	public static void playGame() {
 		// Initializes the dictionary
-		init();
+		// init();
 		// The variable in is set to represent the stream of characters
 		// coming from the keyboard. Used for getting the user's inputs.
 		In in = new In();
 
 		while (true) {
 			System.out.println("Enter n to deal a new hand, or e to end the game:");
-			// Gets the user's input, which is all the characters entered by
-			// the user until the user enter the ENTER character.
 			String input = in.readString();
 			if (input.equals("e")) {
 				break;
 			} else {
 				if (input.equals("n")) {
 					String hand = createHand();
-					System.out.println("Current Hand: " + MyString.spacedString(hand));
 					playHand(hand);
 				}
 
 			}
 
-			//// Replace the following break statement with code
-			//// that completes the game playing loop
 			break;
 		}
 	}
@@ -197,11 +186,12 @@ public class Scrabble {
 		// testScrabbleScore();
 		// testCreateHands();
 		// testPlayHands();
-		// playGame();
-		// playHand(mainHandString);
 		init();
-		println(DICTIONARY);
-		System.out.println(isWordInDictionary("aardvark"));
+
+		playGame();
+		// playHand(mainHandString);
+		// init();
+		// System.out.println(isWordInDictionary("aardvark"));
 	}
 
 	public static void println(String[] arr) {

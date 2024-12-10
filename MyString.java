@@ -37,13 +37,15 @@ public class MyString {
          * System.out.println(randomStringOfLetters(4455));
          */
         System.out.println(remove("committee", "meet"));
-        System.out.println(remove("wqreytiupo", "erio"));
-        System.out.println(remove("zmxnvbfghds", "gadfsn"));
-        System.out.println(remove("xcZJ<VBn", "xfvnkj"));
-
-        System.out.println(remove("committee", "sgauwskgudfjc"));
-        System.out.println(insertRandomly('t', b5));
-        System.out.println(insertRandomly('m', hello));
+        /*
+         * System.out.println(remove("wqreytiupo", "erio"));
+         * System.out.println(remove("zmxnvbfghds", "gadfsn"));
+         * System.out.println(remove("xcZJ<VBn", "xfvnkj"));
+         * 
+         * System.out.println(remove("committee", "sgauwskgudfjc"));
+         * System.out.println(insertRandomly('t', b5));
+         * System.out.println(insertRandomly('m', hello));
+         */
         /*
          * System.out.println();
          * System.out.println();
@@ -185,21 +187,21 @@ public class MyString {
 
         boolean[] str11 = new boolean[str1.length()];
         for (int i = 0; i < str11.length; i++)
-            str11[i] = false;
+            str11[i] = true;
 
         for (int i = 0; i < str2.length(); i++) {
             for (int j = 0; j < str1.length(); j++) {
-                if (str1.charAt(j) == str2.charAt(i)) {
-                    if (!str11[j])
-                        str11[j] = true;
+                if (str1.charAt(j) == str2.charAt(i) && str11[j]) {
+                    if (str11[j])
+                    str11[j] = false;
                     break;
                 }
 
             }
         }
         String reString = new String();
-        for (int i = 0; i < str1.length(); i++) {
-            if (!str11[i]) {
+        for (int i = 0; i < str11.length; i++) {
+            if (str11[i]) {
                 reString += str1.charAt(i);
             }
 
