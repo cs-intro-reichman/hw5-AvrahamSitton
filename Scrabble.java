@@ -161,7 +161,7 @@ public class Scrabble {
 	// to end the game. If the user enters any other input, writes an error message.
 	public static void playGame() {
 		// Initializes the dictionary
-		// init();
+		init();
 		// The variable in is set to represent the stream of characters
 		// coming from the keyboard. Used for getting the user's inputs.
 		In in = new In();
@@ -185,7 +185,7 @@ public class Scrabble {
 
 	public static void main(String[] args) {
 
-		init();
+		//init();
 		playGame();
 
 	}
