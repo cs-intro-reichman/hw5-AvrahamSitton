@@ -43,7 +43,7 @@ public class Scrabble {
 		// to represent
 		// the stream of characters coming from the given file. Used for reading words
 		// from the file.
-		totalScore = 0;
+		// totalScore = 0;
 		In in = new In(WORDS_FILE);
 		System.out.println("Loading word list from file...");
 		NUM_OF_WORDS = 0;
@@ -117,40 +117,43 @@ public class Scrabble {
 	// 3. The user is prompted to enter another word, or '.' to end the hand.
 	public static void playHand(String hand) {
 		In in = new In();
+
 		while (hand.length() > 0) {
+
 			System.out.println("Current Hand: " + MyString.spacedString(hand));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
+
 			String input = in.readString();
 
 			if (input.equals(".")) {
 				System.out.println("End of hand. Total score: " + totalScore + " points");
-				playGame();
+
+				return;
+
 			}
 
-			else if (isWordInDictionary(input) && MyString.subsetOf(input, hand)) {
-				totalScore += wordScore(input);
-				System.out.println(
-						input + " earned " + wordScore(input) + " points. Score: " + totalScore + " points");
-				System.out.println();
-				playHand(MyString.remove(hand, input));
-			}
-
-			else if (!MyString.subsetOf(input, hand)) {
+			if (!MyString.subsetOf(input, hand)) {
 				System.out.println("Invalid word. Try again.");
-				playHand(hand);
-			}
 
-			else if (!isWordInDictionary(input)) {
+				continue;
+
+			}
+			if (!isWordInDictionary(input)) {
 				System.out.println("No such word in the dictionary. Try again.");
-				System.out.println();
-				playHand(hand);
+
+				continue;
+
 			}
 
-			else if (hand.length() == 0) {
-				System.out.println("Ran out of letters. Total score: " + totalScore + " points");
-			}
+			totalScore += wordScore(input);
+			System.out.println(
+					input + " earned " + wordScore(input) + " points. Score: " + totalScore + " points");
+			System.out.println();
+			hand = MyString.remove(hand, input);
+
 		}
 
+		System.out.println("Ran out of letters. Total score: " + totalScore + " points");
 	}
 
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand,
@@ -162,36 +165,29 @@ public class Scrabble {
 		// The variable in is set to represent the stream of characters
 		// coming from the keyboard. Used for getting the user's inputs.
 		In in = new In();
+		totalScore = 0;
 
 		while (true) {
 			System.out.println("Enter n to deal a new hand, or e to end the game:");
+
 			String input = in.readString();
-			if (input.equals("e")) {
-				break;
+
+			if (input.equals("n")) {
+				String hand = createHand();
+				playHand(hand);
+
 			} else {
-				if (input.equals("n")) {
-					String hand = createHand();
-					playHand(hand);
-				}
+				break;
 
 			}
-
-			break;
 		}
 	}
 
 	public static void main(String[] args) {
-		//// Uncomment the test you want to run
-		// testBuildingTheDictionary();
-		// testScrabbleScore();
-		// testCreateHands();
-		// testPlayHands();
-		init();
 
+		init();
 		playGame();
-		// playHand(mainHandString);
-		// init();
-		// System.out.println(isWordInDictionary("aardvark"));
+
 	}
 
 	public static void println(String[] arr) {
